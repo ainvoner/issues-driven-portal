@@ -2,8 +2,7 @@
 name: New Service
 about: Create a new service
 title: New Service
-labels: ["NewService"]
-
+labels: NewService
 ---
 
 apiVersion: acme.com/v1
