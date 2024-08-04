@@ -29,10 +29,11 @@ if __name__ == "__main__":
     issue_body = sys.argv[1]
     try:
         issue_content = yaml.safe_load(issue_body)
-        if not validate_issue(issue_content):
-            sys.exit(1)
+        if validate_issue(issue_content):
+            metadata_name = issue_content['metadata']['name']
+            print(metadata_name)  # Output the service name for the GitHub Action to capture
         else:
-            return issue_content['metadata']['name']
+            sys.exit(1)
     except Exception as e:
         print(f'Error parsing issue content: {e}')
         sys.exit(1)

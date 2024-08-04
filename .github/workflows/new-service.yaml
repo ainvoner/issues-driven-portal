@@ -7,7 +7,6 @@ on:
 
 jobs:
   validate-and-create-yaml:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -31,6 +30,7 @@ jobs:
           service_name=$(python3 scripts/validate_issue.py "$(cat issue_body.txt)")
           echo "SERVICE_NAME=$service_name" >> $GITHUB_ENV
           echo "VALIDATION_PASSED=true" >> $GITHUB_ENV
+        shell: bash
 
       - name: Set up Git
         if: env.VALIDATION_PASSED == 'true'
