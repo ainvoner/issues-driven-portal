@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate-and-create-yaml:
-    if: contains(github.event.issue.labels.*.name, 'ACME, New Service')
+    if: contains(github.event.issue.labels.*.name, 'New ACME Service')
     runs-on: ubuntu-latest
 
     steps:
