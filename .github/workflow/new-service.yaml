@@ -1,0 +1,60 @@
+name: New Service Creation Workflow
+
+on:
+  issues:
+    types:
+      - opened
+      - labeled
+
+jobs:
+  validate-and-create-yaml:
+    if: contains(github.event.issue.labels.*.name, 'ACME, New Service')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Validate issue content and get metadata name
+        id: validate
+        run: |
+          echo "${{ github.event.issue.body }}" > issue_body.txt
+          service_name=$(python3 scripts/validate_issue.py "$(cat issue_body.txt)")
+          echo "SERVICE_NAME=$service_name" >> $GITHUB_ENV
+          echo "VALIDATION_PASSED=true" >> $GITHUB_ENV
+
+      - name: Set up Git
+        if: env.VALIDATION_PASSED == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create YAML file
+        if: env.VALIDATION_PASSED == 'true'
+        run: |
+          echo "${{ github.event.issue.body }}" > acme-service-${{ env.SERVICE_NAME }}.yaml
+
+      - name: Commit file
+        if: env.VALIDATION_PASSED == 'true'
+        run: |
+          git add acme-service-${{ env.SERVICE_NAME }}.yaml
+          git commit -m "chore: add a new service for issue #${{ github.event.issue.number }}"
+          git push origin main
+
+      - name: Close the issue
+        if: env.VALIDATION_PASSED == 'true'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            })
