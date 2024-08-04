@@ -8,9 +8,9 @@ labels: NewService
 apiVersion: acme.com/v1
 kind: Service
 metadata:
-    name: <service name>
+    name: my-new-service
 labels:
-    app: <app name>
+    app: my-new-app
 repo:
-    name: <repository name>
-    owner: <owner>
+    name: my-new-repo
+    owner: owner-name
