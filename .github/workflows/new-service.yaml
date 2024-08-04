@@ -53,18 +53,8 @@ jobs:
 
       - name: Close the issue
         if: env.VALIDATION_PASSED == 'true'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const octokit = require('@actions/github').getOctokit('${{ secrets.GITHUB_TOKEN }}');
-            const { owner, repo } = process.env.GITHUB_REPOSITORY.split("/");
-            await octokit.issues.update({
-              owner: owner,
-              repo: repo,
-              issue_number: ${process.env.GITHUB_ISSUE_NUMBER},
-              state: 'closed'
-            });
+        run: gh issue close --comment "Auto closing issue" ${process.env.GITHUB_ISSUE_NUMBER}
         env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          
