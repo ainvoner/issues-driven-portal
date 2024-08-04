@@ -3,7 +3,7 @@ kind: Service
 metadata:
     name: my-service
 labels:
-    app: my-app
+    app: app-name
 repo:
-    name: my-repo
+    name: repo-name
     owner: owner
