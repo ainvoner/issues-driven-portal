@@ -53,7 +53,7 @@ jobs:
 
       - name: Close the issue
         if: env.VALIDATION_PASSED == 'true'
-        run: gh issue close --comment "Auto closing issue" ${process.env.GITHUB_ISSUE_NUMBER}
+        run: gh issue close $GITHUB_ISSUE_NUMBER --comment "Auto closing issue"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
