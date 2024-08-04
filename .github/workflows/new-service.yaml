@@ -57,12 +57,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context, getOctokit } = require('@actions/github');
-            const octokit = getOctokit('${{ secrets.GITHUB_TOKEN }}');
+            const octokit = require('@actions/github').getOctokit('${{ secrets.GITHUB_TOKEN }}');
+            const { owner, repo } = process.env.GITHUB_REPOSITORY.split("/");
             await octokit.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
+              owner: owner,
+              repo: repo,
+              issue_number: ${process.env.GITHUB_ISSUE_NUMBER},
               state: 'closed'
             });
-
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
