@@ -4,7 +4,7 @@ title: New Service
 labels:
     - service
 body:
-    - type: markdown
+    - type: textarea
       attributes:
           value: |
               ```yaml
