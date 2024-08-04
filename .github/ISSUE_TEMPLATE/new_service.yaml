@@ -1,0 +1,20 @@
+name: New Service
+description: Create a new service
+title: New Service
+labels:
+    - service
+body:
+    - type: markdown
+      attributes:
+          value: |
+              ```yaml
+              apiVersion: acme.com/v1
+              kind: Service
+              metadata:
+                name: my-new-service
+              labels:
+                app: my-new-app
+              repo:
+                name: my-new-repo
+                owner: owner-name
+              ```
