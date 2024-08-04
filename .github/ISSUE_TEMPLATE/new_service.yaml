@@ -5,6 +5,7 @@ labels:
     - service
 body:
     - type: textarea
+      label: Service Details
       attributes:
           value: |
               ```yaml
