@@ -1,9 +1,0 @@
-apiVersion: acme.com/v1
-kind: Service
-metadata:
-    name: my-service
-labels:
-    app: my-app
-repo:
-    name: repo-name
-    owner: owner
