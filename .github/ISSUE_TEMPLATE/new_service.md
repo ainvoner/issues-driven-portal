@@ -2,9 +2,11 @@
 name: New Service
 about: Create a new service
 title: New Service
-labels: NewService
+labels: service
+
 ---
 
+```yaml
 apiVersion: acme.com/v1
 kind: Service
 metadata:
