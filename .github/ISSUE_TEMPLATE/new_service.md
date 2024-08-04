@@ -3,7 +3,7 @@
 name: New Service
 about: Create a new service
 title: New Service
-labels: New ACME Service
+labels: AMCEService
 assignees: ''
 
 ---
