@@ -31,6 +31,8 @@ if __name__ == "__main__":
         issue_content = yaml.safe_load(issue_body)
         if not validate_issue(issue_content):
             sys.exit(1)
+        else:
+            return issue_content['metadata']['name']
     except Exception as e:
         print(f'Error parsing issue content: {e}')
         sys.exit(1)
