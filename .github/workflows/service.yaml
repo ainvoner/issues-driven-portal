@@ -26,10 +26,10 @@ jobs:
 
       - name: Debug extracted values
         run: |
-          echo "SERVICE_NAME=$env.SERVICE_NAME"
-          echo "APP_NAME=$env.APP_NAME"
-          echo "REPO_NAME=$env.REPO_NAME"
-          echo "REPO_OWNER=$env.REPO_OWNER"
+          echo "SERVICE_NAME=$SERVICE_NAME"
+          echo "APP_NAME=$APP_NAME"
+          echo "REPO_NAME=$REPO_NAME"
+          echo "REPO_OWNER=$REPO_OWNER"
 
       - name: Create YAML file
         run: |
