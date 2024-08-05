@@ -15,10 +15,10 @@ jobs:
       - name: Extract issue details
         id: extract
         run: |
-          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | sed -n '/^### Service Name$/,/^$/p' | tail -n +2 | head -n 1 | tr -d '\r')
-          APP_NAME=$(echo "${{ github.event.issue.body }}" | sed -n '/^### App Name$/,/^$/p' | tail -n +2 | head -n 1 | tr -d '\r')
-          REPO_NAME=$(echo "${{ github.event.issue.body }}" | sed -n '/^### Repository Name$/,/^$/p' | tail -n +2 | head -n 1 | tr -d '\r')
-          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | sed -n '/^### Repository Owner$/,/^$/p' | tail -n +2 | head -n 1 | tr -d '\r')
+          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### Service Name/{getline; print}' | tr -d '\r')
+          APP_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### App Name/{getline; print}' | tr -d '\r')
+          REPO_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
+          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
           echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
