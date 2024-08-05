@@ -55,3 +55,9 @@ jobs:
           git add services/${{ env.SERVICE_NAME }}.yaml
           git commit -m "Add new service ${{ env.SERVICE_NAME }}"
           git push
+
+      - name: Close the issue
+        run: gh issue close $GITHUB_ISSUE_NUMBER --comment "Auto closing issue"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
