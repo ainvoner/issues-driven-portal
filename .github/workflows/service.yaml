@@ -6,6 +6,7 @@ on:
 
 jobs:
   create_service_file:
+    if: contains(github.event.issue.labels.*.name, 'amce-service')
     runs-on: ubuntu-latest
 
     steps:
