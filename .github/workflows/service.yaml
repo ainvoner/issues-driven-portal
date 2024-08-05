@@ -16,15 +16,14 @@ jobs:
         id: extract
         run: |
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
-          echo "$ISSUE_BODY"
-          SERVICE_NAME=$(echo "$ISSUE_BODY")
-#          APP_NAME=$(echo "$ISSUE_BODY" | awk '/### App Name/{getline; print}' | tr -d '\r')
-#          REPO_NAME=$(echo "$ISSUE_BODY" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
-#          REPO_OWNER=$(echo "$ISSUE_BODY" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
-#          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
-#          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-#          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
-#          echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
+          APP_NAME=$(echo "$ISSUE_BODY" | awk '/### App Name/{getline; print}' | tr -d '\r')
+          echo "APP=$APP_NAME"
+          REPO_NAME=$(echo "$ISSUE_BODY" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
+          REPO_OWNER=$(echo "$ISSUE_BODY" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
+          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
 
       - name: Debug extracted values
         run: |
