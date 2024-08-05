@@ -1,0 +1,9 @@
+apiVersion: acme.com/v1
+kind: Service
+metadata:
+  name: vote-service
+labels:
+  app: vote-app
+repo:
+  name: vote-app-repo
+  owner: ainvoner
