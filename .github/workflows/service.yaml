@@ -6,26 +6,31 @@ on:
 
 jobs:
   create_service_file:
+    if: contains(github.event.issue.labels.*.name, 'amce.service')
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: print issue body
-        run: echo "${{ github.event.issue.body }}"
-
       - name: Extract issue details
         id: extract
         run: |
-          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Service Name' | tail -n 1 | xargs)
-          APP_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'App Name' | tail -n 1 | xargs)
-          REPO_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Repository Name' | tail -n 1 | xargs)
-          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Repository Owner' | tail -n 1 | xargs)
+          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | sed -n 's/^### Service Name\s*\n//p' | tr -d '\r')
+          APP_NAME=$(echo "${{ github.event.issue.body }}" | sed -n 's/^### App Name\s*\n//p' | tr -d '\r')
+          REPO_NAME=$(echo "${{ github.event.issue.body }}" | sed -n 's/^### Repository Name\s*\n//p' | tr -d '\r')
+          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | sed -n 's/^### Repository Owner\s*\n//p' | tr -d '\r')
           echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
+
+      - name: Debug extracted values
+        run: |
+          echo "SERVICE_NAME=${{ env.SERVICE_NAME }}"
+          echo "APP_NAME=${{ env.APP_NAME }}"
+          echo "REPO_NAME=${{ env.REPO_NAME }}"
+          echo "REPO_OWNER=${{ env.REPO_OWNER }}"
 
       - name: Create YAML file
         run: |
@@ -40,10 +45,10 @@ jobs:
           repo:
             name: ${{ env.REPO_NAME }}
             owner: ${{ env.REPO_OWNER }}
-          EOF
-          )
-          echo "$FILE_CONTENT" > services/${{ env.SERVICE_NAME }}.yaml
-
+            EOF
+            )
+            echo "$FILE_CONTENT" > services/${{ env.SERVICE_NAME }}.yaml
+          
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
