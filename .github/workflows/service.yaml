@@ -1,4 +1,4 @@
-name: Create Service File
+name: Create a New Service
 
 on:
   issues:
@@ -18,7 +18,6 @@ jobs:
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
           
           SERVICE_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### Service Name' | tail -n 1 | tr -d '\r')
-          echo "service: $SERVICE_NAME"
           APP_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### App Name' | tail -n 1 | tr -d '\r')
           REPO_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### Repository Name' | tail -n 1 | tr -d '\r')
           REPO_OWNER=$(echo "$ISSUE_BODY" | grep -A 2 '### Repository Owner' | tail -n 1 | tr -d '\r')
@@ -27,13 +26,6 @@ jobs:
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
-
-      - name: Debug extracted values
-        run: |
-          echo "SERVICE_NAME=$SERVICE_NAME"
-          echo "APP_NAME=$APP_NAME"
-          echo "REPO_NAME=$REPO_NAME"
-          echo "REPO_OWNER=$REPO_OWNER"
 
       - name: Create YAML file
         run: |
