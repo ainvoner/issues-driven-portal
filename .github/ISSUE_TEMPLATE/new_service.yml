@@ -10,7 +10,7 @@ body:
           label: Service Name
           description: The name of the new service
           placeholder: my-new-service
-     validations:
+      validations:
           required: true
     - type: input
       id: app_name
@@ -18,7 +18,7 @@ body:
           label: App Name
           description: The name of the app associated with the service
           placeholder: my-new-app
-     validations:
+      validations:
           required: true
     - type: input
       id: repo_name
@@ -26,7 +26,7 @@ body:
           label: Repository Name
           description: The name of the repository for the service
           placeholder: my-new-repo
-     validations:
+      validations:
           required: true
     - type: input
       id: repo_owner
@@ -34,5 +34,5 @@ body:
           label: Repository Owner
           description: The owner of the repository
           placeholder: owner-name
-     validations:
+      validations:
           required: true
