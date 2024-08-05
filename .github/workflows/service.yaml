@@ -15,10 +15,14 @@ jobs:
       - name: Extract issue details
         id: extract
         run: |
-          echo "SERVICE_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Service Name' | sed 's/^.*: //')" >> $GITHUB_ENV
-          echo "APP_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'App Name' | sed 's/^.*: //')" >> $GITHUB_ENV
-          echo "REPO_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Repository Name' | sed 's/^.*: //')" >> $GITHUB_ENV
-          echo "REPO_OWNER=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Repository Owner' | sed 's/^.*: //')" >> $GITHUB_ENV
+          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Service Name' | tail -n 1 | xargs)
+          APP_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'App Name' | tail -n 1 | xargs)
+          REPO_NAME=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Repository Name' | tail -n 1 | xargs)
+          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | grep -A 1 'Repository Owner' | tail -n 1 | xargs)
+          echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "REPO_OWNER=$REPO_OWNER" >> $GITHUB_ENV
 
       - name: Create YAML file
         run: |
