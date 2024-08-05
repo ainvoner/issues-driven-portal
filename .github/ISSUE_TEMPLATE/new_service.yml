@@ -1,9 +1,9 @@
 name: New Service
 description: Create a new ACME service
 title: New Service
-labels:
-    - "amce.service"
+labels: ["acme-services"]
 body:
+
     - type: input
       id: service_name
       attributes:
