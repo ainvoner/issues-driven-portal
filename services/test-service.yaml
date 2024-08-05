@@ -1,0 +1,9 @@
+apiVersion: acme.com/v1
+kind: Service
+metadata:
+  name: test-service
+labels:
+  app: test-app
+repo:
+  name: test-repo
+  owner: test-owner
