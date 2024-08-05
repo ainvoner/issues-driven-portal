@@ -16,7 +16,7 @@ jobs:
         id: extract
         run: |
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
-          echo "ISSUE_BODY"
+          echo "$ISSUE_BODY"
           SERVICE_NAME=$(echo "$ISSUE_BODY")
 #          APP_NAME=$(echo "$ISSUE_BODY" | awk '/### App Name/{getline; print}' | tr -d '\r')
 #          REPO_NAME=$(echo "$ISSUE_BODY" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
