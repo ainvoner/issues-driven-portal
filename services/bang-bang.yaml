@@ -1,0 +1,9 @@
+apiVersion: acme.com/v1
+kind: Service
+metadata:
+  name: bang-bang
+labels:
+  app: bang-bang
+repo:
+  name: my-bang-bang
+  owner: monadaco
