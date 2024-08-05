@@ -1,4 +1,4 @@
-name: Create Service File
+name: Create a Service File
 
 on:
   issues:
@@ -6,7 +6,6 @@ on:
 
 jobs:
   create_service_file:
-    if: contains(github.event.issue.labels.*.name, 'amce.service')
     runs-on: ubuntu-latest
 
     steps:
