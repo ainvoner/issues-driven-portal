@@ -1,7 +1,8 @@
 name: New Service
 description: Create a new ACME service
 title: New Service
-labels: ["acme-services"]
+labels: ["🐛 bug"]
+
 body:
 
     - type: input
