@@ -1,0 +1,44 @@
+name: Create Service File
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create_service_file:
+    if: contains(github.event.issue.labels.*.name, 'amce.service')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract issue details
+        id: extract
+        run: |
+          echo "SERVICE_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Service Name' | sed 's/^.*: //')" >> $GITHUB_ENV
+          echo "APP_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'App Name' | sed 's/^.*: //')" >> $GITHUB_ENV
+          echo "REPO_NAME=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Repository Name' | sed 's/^.*: //')" >> $GITHUB_ENV
+          echo "REPO_OWNER=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep 'Repository Owner' | sed 's/^.*: //')" >> $GITHUB_ENV
+
+      - name: Create YAML file
+        run: |
+          cat <<EOF > services/${{ env.SERVICE_NAME }}.yaml
+          apiVersion: acme.com/v1
+          kind: Service
+          metadata:
+            name: ${{ env.SERVICE_NAME }}
+          labels:
+            app: ${{ env.APP_NAME }}
+          repo:
+            name: ${{ env.REPO_NAME }}
+            owner: ${{ env.REPO_OWNER }}
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add services/${{ env.SERVICE_NAME }}.yaml
+          git commit -m "Add new service ${{ env.SERVICE_NAME }}"
+          git push
