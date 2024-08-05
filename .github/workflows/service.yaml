@@ -1,4 +1,4 @@
-name: Create a Service File
+name: Create Service File
 
 on:
   issues:
@@ -22,7 +22,8 @@ jobs:
 
       - name: Create YAML file
         run: |
-          cat <<EOF > services/${{ env.SERVICE_NAME }}.yaml
+          mkdir -p services
+          FILE_CONTENT=$(cat <<EOF
           apiVersion: acme.com/v1
           kind: Service
           metadata:
@@ -33,6 +34,8 @@ jobs:
             name: ${{ env.REPO_NAME }}
             owner: ${{ env.REPO_OWNER }}
           EOF
+          )
+          echo "$FILE_CONTENT" > services/${{ env.SERVICE_NAME }}.yaml
 
       - name: Commit and push changes
         run: |
