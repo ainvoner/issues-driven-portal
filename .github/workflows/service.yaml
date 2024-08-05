@@ -15,10 +15,11 @@ jobs:
       - name: Extract issue details
         id: extract
         run: |
-          SERVICE_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### Service Name/{getline; print}' | tr -d '\r')
-          APP_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### App Name/{getline; print}' | tr -d '\r')
-          REPO_NAME=$(echo "${{ github.event.issue.body }}" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
-          REPO_OWNER=$(echo "${{ github.event.issue.body }}" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
+          ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
+          SERVICE_NAME=$(echo "$ISSUE_BODY" | awk '/### Service Name/{getline; print}' | tr -d '\r')
+          APP_NAME=$(echo "$ISSUE_BODY" | awk '/### App Name/{getline; print}' | tr -d '\r')
+          REPO_NAME=$(echo "$ISSUE_BODY" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
+          REPO_OWNER=$(echo "$ISSUE_BODY" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
           echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
