@@ -1,0 +1,9 @@
+apiVersion: acme.com/v1
+kind: Service
+metadata:
+  name: 22222
+labels:
+  app: 2222
+repo:
+  name: 2222
+  owner: 22222
