@@ -16,10 +16,13 @@ jobs:
         id: extract
         run: |
           ISSUE_BODY=$(jq -r '.issue.body' < "$GITHUB_EVENT_PATH")
-          APP_NAME=$(echo "$ISSUE_BODY" | awk '/### App Name/{getline; print}' | tr -d '\r')
-          echo "APP=$APP_NAME"
-          REPO_NAME=$(echo "$ISSUE_BODY" | awk '/### Repository Name/{getline; print}' | tr -d '\r')
-          REPO_OWNER=$(echo "$ISSUE_BODY" | awk '/### Repository Owner/{getline; print}' | tr -d '\r')
+          
+          SERVICE_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### Service Name' | tail -n 1 | tr -d '\r')
+          echo "service: $SERVICE_NAME"
+          APP_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### App Name' | tail -n 1 | tr -d '\r')
+          REPO_NAME=$(echo "$ISSUE_BODY" | grep -A 2 '### Repository Name' | tail -n 1 | tr -d '\r')
+          REPO_OWNER=$(echo "$ISSUE_BODY" | grep -A 2 '### Repository Owner' | tail -n 1 | tr -d '\r')
+          
           echo "SERVICE_NAME=$SERVICE_NAME" >> $GITHUB_ENV
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
