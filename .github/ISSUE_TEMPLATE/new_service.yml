@@ -24,7 +24,7 @@ body:
       id: repo_name
       attributes:
           label: Repository Name
-          description: The name of the repository for the service
+          description: The name of the repository for the new service
           placeholder: my-new-repo
       validations:
           required: true
