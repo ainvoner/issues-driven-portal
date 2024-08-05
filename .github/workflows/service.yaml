@@ -12,6 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: print issue body
+        run: echo "${{ github.event.issue.body }}"
+
       - name: Extract issue details
         id: extract
         run: |
